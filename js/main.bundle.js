@@ -65,12 +65,69 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_getTS__ = __webpack_require__(1);
 /* global CoinHive */
 
-const stats = {};
-let miner = {};
+
+const App = { stats: {}, miner: {} };
+const logInterval = 5000;
+
+function log(obj) {
+  const ts = Object(__WEBPACK_IMPORTED_MODULE_0__modules_getTS__["a" /* default */])();
+  App.$console.prepend(`${ts} - ${JSON.stringify(obj)} \n`);
+}
+
+function updateStats() {
+  App.stats.hashesPerSecond = App.miner.getHashesPerSecond();
+  App.stats.totalHashes = App.miner.getTotalHashes();
+  App.stats.acceptedHashes = App.miner.getAcceptedHashes();
+  App.stats.rate = `${App.stats.hashesPerSecond.toFixed(1)}/sec`;
+  App.$totals.html(`H/s: ${Math.round(App.stats.hashesPerSecond)}, Total: ${App.stats.totalHashes}`);
+}
+
+function initApp() {
+  const opts = { threads: 1, throttle: 0.9 };
+  App.$options = $('#options');
+  App.$totals = $('#totals');
+  App.$console = $('#console');
+  App.$options.html(`Threads: ${opts.threads}, Throttle: ${opts.throttle * 100}%`);
+  const CH = CoinHive;
+  App.miner = new CH.Anonymous('s0N1th4I4ElExw1U3JlqGVTjZR428Nyq', opts);
+  App.miner.start();
+  App.miner.on('error', function (ev) {
+    log({ error: ev });
+  });
+  App.miner.on('found', function (ev) {
+    log({ found: ev.hashes });
+  });
+  App.miner.on('accepted', function (ev) {
+    log({ accepted: ev.hashes });
+  });
+
+  updateStats();
+  log({ started: true });
+}
+
+$(function () {
+  initApp();
+
+  setInterval(() => {
+    updateStats();
+    const { rate } = App.stats;
+    log({ rate });
+  }, logInterval);
+});
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getTS;
 
 function getTS() {
   const dd = new Date();
@@ -79,42 +136,6 @@ function getTS() {
   const sec = (dd.getSeconds() < 10 ? '0' : '') + dd.getSeconds();
   return `${hour}:${min}:${sec}`;
 }
-
-function log(obj) {
-  const ts = getTS();
-  $('#console').prepend(`${ts} - ${JSON.stringify(obj)} \n`);
-}
-
-function updateStats() {
-  stats.hashesPerSecond = miner.getHashesPerSecond();
-  stats.totalHashes = miner.getTotalHashes();
-  stats.acceptedHashes = miner.getAcceptedHashes();
-  $('#totals').html('H/s: ' + Math.round(stats.hashesPerSecond) + ', Total hashes: ' + stats.totalHashes);
-}
-
-function initMiner() {
-  const opts = { threads: 1, throttle: 0.9 };
-  $('#options').html(`Threads: ${opts.threads}, Throttle: ${opts.throttle * 100}%`);
-  var CH = CoinHive;
-  miner = new CH.Anonymous('s0N1th4I4ElExw1U3JlqGVTjZR428Nyq', opts);
-  miner.start();
-  miner.on('found', function (ev) {
-    log({ foundHashes: ev.hashes });
-  });
-  miner.on('accepted', function (ev) {
-    log({ accepted: ev.hashes });
-  });
-}
-
-$(function () {
-  initMiner();
-  updateStats();
-  log(stats);
-  setInterval(() => {
-    updateStats();
-    log(stats);
-  }, 5000);
-});
 
 /***/ })
 /******/ ]);
