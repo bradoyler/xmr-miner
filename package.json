@@ -1,0 +1,27 @@
+{
+  "name": "xmr-miner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "python -m SimpleHTTPServer & webpack -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^4.12.0",
+    "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.0.0-beta.34",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
