@@ -30,7 +30,9 @@ function updateStats () {
   console.log(msg, power)
   store.commit('updateStats', stats)
   store.commit('addMessage', msg)
-  store.commit('addNode', {id: stats.totalHashes, name: stats.rate, _size: stats.hashesPerSecond * 10})
+  if (stats.hashesPerSecond > 0) {
+    store.commit('addNode', {id: stats.totalHashes, name: stats.rate, _size: stats.hashesPerSecond * 10})
+  }
 }
 
 setInterval(updateStats, 3000)
