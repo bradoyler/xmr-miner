@@ -5,37 +5,51 @@ import router from './router'
 import store from './store'
 
 const stats = {}
-App.opts = { threads: 1, throttle: 0.9 }
+App.opts = { threads: 1, throttle: 0.75 }
+
+function hashFound (ev) {
+  const { job_id, result, hashes } = ev // hashesPerSecond
+  store.commit('addNode', {id: result, name: hashes, _size: hashes, job_id})
+  store.commit('addMessage', `Found ${hashes} hashes!`)
+}
+
+function hashAccepted (ev) {
+  // const { job_id, result, hashes } = ev // hashesPerSecond
+  // store.commit('addNode', {id: result, name: hashes, _size: hashes, job_id})
+  store.commit('addMessage', `Accepted ${ev.hashes} hashes!`)
+}
+
+function newJob (ev) {
+  store.commit('addMessage', `New job @ ${Math.round((1 - ev.throttle) * 100)}% power`)
+}
+
+// function setThrottle (throttle) {
+//   App.miner.setThrottle(throttle)
+//   store.commit('addMessage', `Throttled to: ${(1 - throttle) * 100}% power`)
+// }
 
 const CH = CoinHive
 App.miner = new CH.Anonymous('s0N1th4I4ElExw1U3JlqGVTjZR428Nyq', App.opts)
 App.miner.on('error', ev => console.log({ error: ev }))
 App.miner.on('open', ev => console.log({ state: 'started', ev }))
 App.miner.on('close', ev => console.log({ state: 'closed' }))
-App.miner.on('found', ev => console.log({ found: ev.hashes }))
-App.miner.on('accepted', ev => console.log({ accepted: ev.hashes }))
+App.miner.on('found', ev => hashFound(ev))
+App.miner.on('job', ev => newJob(ev))
+App.miner.on('accepted', ev => hashAccepted(ev))
 App.miner.start()
 
 function updateStats () {
   stats.hashesPerSecond = App.miner.getHashesPerSecond()
-  stats.totalHashes = App.miner.getTotalHashes()
+  stats.totalHashes = App.miner.getTotalHashes(true)
   stats.acceptedHashes = App.miner.getAcceptedHashes()
-  stats.rate = `${stats.hashesPerSecond.toFixed(1)}/sec`
-  // App.opts.throttle = (1 - App.$slider.getValue() / 100)
+  stats.throttle = App.miner.getThrottle()
+  stats.power = `${((1 - stats.throttle).toFixed(2) * 100)}%`
+  stats.hashRate = `${stats.hashesPerSecond.toFixed(1)}/sec`
   // App.miner.setThrottle(App.opts.throttle)
-  // App.$options.html(`Threads: ${App.opts.threads}, Throttle: ${App.opts.throttle * 100}%`)
-  // const power = `Power: ${App.opts.throttle}`
-  // const msg = `H/s: ${Math.round(stats.hashesPerSecond)}, Total: ${stats.totalHashes}`
-  // console.log(msg, power)
-  const { rate, totalHashes } = stats
-  store.commit('updateStats', { rate, totalHashes })
-  store.commit('addMessage', { hashesPerSecond: stats.hashesPerSecond.toFixed(2) })
-  if (stats.hashesPerSecond > 0) {
-    store.commit('addNode', {id: stats.totalHashes, name: stats.rate, _size: stats.hashesPerSecond * 10})
-  }
+  store.commit('updateStats', stats)
 }
 
-setInterval(updateStats, 2500)
+setInterval(updateStats, 500)
 
 /* eslint-disable no-new */
 new Vue({

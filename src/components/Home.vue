@@ -13,12 +13,6 @@
         </div>
       </div>
     </div>
-    <!-- <ul id="console" class="list-group">
-      <li id="log-header" class="list-group-item disabled">Log</li>
-      <li class="list-group-item active" v-for="item in messages">
-        {{ item }}
-      </li>
-    </ul> -->
     <div class="">
       <d3-network :net-nodes="nodes" :net-links="links" :options="options"></d3-network>
     </div>
@@ -33,7 +27,7 @@ export default {
   },
   data () {
     return {
-      title: 'XMR Miner',
+      title: 'Monero Mine',
       nodes: this.$store.state.nodes,
       messages: this.$store.state.messages,
       stats: this.$store.state.stats,
@@ -64,6 +58,7 @@ export default {
   #console {
     position: absolute;
     top: 5;
+    max-height: 600px;
     color: #fff;
     max-width: 320px;
   }
