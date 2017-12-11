@@ -1,27 +1,36 @@
 {
   "name": "xmr-miner",
+  "description": "A Vue.js project",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "author": "Brad Oyler <bradoyler@gmail.com>",
+  "license": "MIT",
+  "private": true,
   "scripts": {
-    "dev": "python -m SimpleHTTPServer & webpack -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot --port 3000",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "d3": "^4.12.0",
-    "webpack": "^3.10.0"
+    "vue": "^2.4.4",
+    "vue-d3-network": "^0.1.24",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "devDependencies": {
-    "@babel/preset-env": "^7.0.0-beta.34",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-preset-stage-0": "^6.24.1",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.4",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
   }
 }
