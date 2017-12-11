@@ -3,7 +3,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import D3Network from 'vue-d3-network'
 
 const stats = {}
 App.opts = { threads: 1, throttle: 0.9 }
@@ -25,17 +24,18 @@ function updateStats () {
   // App.opts.throttle = (1 - App.$slider.getValue() / 100)
   // App.miner.setThrottle(App.opts.throttle)
   // App.$options.html(`Threads: ${App.opts.threads}, Throttle: ${App.opts.throttle * 100}%`)
-  const power = `Power: ${App.opts.throttle}`
-  const msg = `H/s: ${Math.round(stats.hashesPerSecond)}, Total: ${stats.totalHashes}`
-  console.log(msg, power)
-  store.commit('updateStats', stats)
-  store.commit('addMessage', msg)
+  // const power = `Power: ${App.opts.throttle}`
+  // const msg = `H/s: ${Math.round(stats.hashesPerSecond)}, Total: ${stats.totalHashes}`
+  // console.log(msg, power)
+  const { rate, totalHashes } = stats
+  store.commit('updateStats', { rate, totalHashes })
+  store.commit('addMessage', { hashesPerSecond: stats.hashesPerSecond.toFixed(2) })
   if (stats.hashesPerSecond > 0) {
     store.commit('addNode', {id: stats.totalHashes, name: stats.rate, _size: stats.hashesPerSecond * 10})
   }
 }
 
-setInterval(updateStats, 3000)
+setInterval(updateStats, 2500)
 
 /* eslint-disable no-new */
 new Vue({
@@ -43,5 +43,5 @@ new Vue({
   store,
   router,
   template: '<App/>',
-  components: { App, D3Network }
+  components: { App }
 })

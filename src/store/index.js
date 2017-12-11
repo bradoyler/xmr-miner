@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const state = {
   user: 'Admin',
-  stats: {},
+  stats: { rate: '', totalHashes: 0 },
   nodes: [{ id: 0, name: 'start', _color: 'orange' }],
   messages: ['starting...']
 }

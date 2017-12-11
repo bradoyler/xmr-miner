@@ -1,9 +1,10 @@
 export const mutations = {
-  addMessage (state, text) {
-    state.messages.unshift(text)
+  addMessage (state, msg) {
+    state.messages.unshift(msg)
   },
-  updateStats (state, stats) {
-    state.stats = stats
+  updateStats (state, { rate, totalHashes }) {
+    state.stats.rate = rate
+    state.stats.totalHashes = totalHashes
   },
   addNode (state, node) {
     state.nodes.push(node)
