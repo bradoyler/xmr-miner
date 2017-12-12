@@ -10,6 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "keen-ui": "^1.0.1",
     "vue": "^2.4.4",
     "vue-d3-network": "^0.1.24",
     "vue-router": "^3.0.1",

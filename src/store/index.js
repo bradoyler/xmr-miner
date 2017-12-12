@@ -5,6 +5,7 @@ import { mutations } from './mutations'
 Vue.use(Vuex)
 
 const state = {
+  throttle: 0.75,
   user: 'Admin',
   stats: [],
   nodes: [{ id: 0, name: 'start', _color: 'orange' }],
