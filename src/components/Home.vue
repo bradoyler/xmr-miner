@@ -37,7 +37,7 @@ export default {
   },
   data () {
     return {
-      concurrency: navigator.hardwareConcurrency,
+      concurrency: navigator.hardwareConcurrency || 1,
       slider: (1 - store.state.throttle).toFixed(2) * 100,
       title: 'Monero Mine',
       nodes: this.$store.state.nodes,
