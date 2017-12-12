@@ -1,12 +1,13 @@
 import store from '../store'
+import getTS from './getTS'
 
 const stats = {}
 let miner = {}
 
 function hashFound (ev) {
-  const { job_id, result, hashes } = ev // hashesPerSecond
-  store.commit('addNode', {id: result, name: hashes, _size: hashes, job_id})
-  store.commit('addMessage', `Found ${hashes} hashes!`)
+  const { job_id: jobId, result, hashes } = ev // hashesPerSecond
+  store.commit('addNode', {id: result, name: hashes, _size: hashes, jobId})
+  store.commit('addMessage', `${getTS()} - Found ${hashes} hashes!`)
 }
 
 function hashAccepted (ev) {
@@ -34,7 +35,7 @@ function updateStats () {
 }
 
 export default function (CH) {
-  const opts = { threads: 1, throttle: store.state.throttle }
+  const opts = { throttle: store.state.throttle }
   miner = new CH.Anonymous('s0N1th4I4ElExw1U3JlqGVTjZR428Nyq', opts)
   miner.on('error', ev => console.log({ error: ev }))
   miner.on('open', ev => console.log({ state: 'started', ev }))

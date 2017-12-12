@@ -1,14 +1,16 @@
 <template lang="html">
   <div class="container">
     <h2>{{title}}</h2>
-    <p id="totals">{{stats}}</p>
+    <p id="totals">Hashing: {{stats[0].hashRate}}, Total: {{stats[0].totalHashes}},
+     Accepted: {{stats[0].acceptedHashes}} </p>
     <p id="slider-wrapper">
-      <span id="slider-label">Power:</span>
-      <ui-slider @change="updateThrottle" v-model="slider"></ui-slider>
+      <span id="slider-label">Threads: {{concurrency}}, Power: </span>
+      <ui-slider @change="updateThrottle" v-model="slider" />
+      <span>{{slider}}%</span>
     </p>
     <div id="console" class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Miner Log</h3>
+        <h3 class="panel-title">xmr-miner@localhost </h3>
       </div>
       <div class="panel-body">
         <div class="" v-for="item in messages">
@@ -35,7 +37,8 @@ export default {
   },
   data () {
     return {
-      slider: 25,
+      concurrency: navigator.hardwareConcurrency,
+      slider: (1 - store.state.throttle).toFixed(2) * 100,
       title: 'Monero Mine',
       nodes: this.$store.state.nodes,
       messages: this.$store.state.messages,
@@ -43,6 +46,7 @@ export default {
       links: [],
       options:
       {
+        size: { h: 300},
         force: 300,
         nodeSize: 10,
         nodeLabels: true,
@@ -64,7 +68,10 @@ export default {
 
 <style lang="css">
   .panel-body {
-    color: #eee;
+    font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+    font-size: 12px;
+    text-align: left;
+    color: #2bf22b;
     background-color: #000;
   }
   #log-header {
@@ -81,9 +88,9 @@ export default {
   }
   #console {
     position: absolute;
-    top: 5;
-    max-height: 600px;
-    color: #fff;
+    bottom: 1px;
+    left: 2px;
+    max-height: 300px;
     max-width: 320px;
   }
 </style>

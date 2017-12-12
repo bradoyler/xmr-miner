@@ -5,13 +5,16 @@ export const mutations = {
       state.messages.pop()
     }
   },
-  updateStats (state, { hashRate, totalHashes, power, acceptedHashes }) {
-    state.stats.unshift({hashRate, totalHashes, power, acceptedHashes})
+  updateStats (state, { hashRate, totalHashes, acceptedHashes }) {
+    state.stats.unshift({hashRate, totalHashes, acceptedHashes})
     if (state.stats.length > 1) {
       state.stats.pop()
     }
   },
   addNode (state, node) {
-    state.nodes.push(node)
+    state.nodes.unshift(node)
+    if (state.nodes.length > 100) {
+      state.nodes.pop()
+    }
   }
 }
