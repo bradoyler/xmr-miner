@@ -19,3 +19,5 @@ npm run build
 ```
 
 > Built using $ vue-cli webpack-simple
+
+Author not affiliated with CoinHive
