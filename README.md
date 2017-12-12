@@ -1,7 +1,10 @@
-# xmr-miner
+# Monero Mine
 
-> A Vue.js project
+Monero (XMR) mining app, built with Vue.js and hashes visualized with D3
 
+![xmr2](https://user-images.githubusercontent.com/425966/33876062-5a938a68-def2-11e7-9a21-8d8a1915bf0c.gif)
+
+Uses the [Coinhive Javascript Miner](https://coinhive.com/documentation/miner)
 ## Build Setup
 
 ``` bash
@@ -15,4 +18,4 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+> Built using $ vue-cli webpack-simple
