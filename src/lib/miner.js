@@ -34,9 +34,9 @@ function updateStats () {
   store.commit('updateStats', stats)
 }
 
-export default function (CH) {
+export default function (CH, ctx) {
   const opts = { throttle: store.state.throttle }
-  miner = new CH.Anonymous('s0N1th4I4ElExw1U3JlqGVTjZR428Nyq', opts)
+  miner = new CH.Anonymous(ctx.$config.siteKey, opts)
   miner.on('error', ev => console.log({ error: ev }))
   miner.on('open', ev => console.log({ state: 'started', ev }))
   miner.on('close', ev => console.log({ state: 'closed' }))

