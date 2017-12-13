@@ -10,9 +10,17 @@ function hashFound (ev) {
   store.commit('addMessage', `${getTS()} - Found ${hashes} hashes!`)
 }
 
-function hashAccepted (ev) {
-  // const { job_id, result, hashes } = ev // hashesPerSecond
-  // store.commit('addMessage', `Accepted ${ev.hashes} hashes!`)
+function hashAccepted (params) {
+  const { hashes } = params // hashesPerSecond, job_id, result
+  store.commit('addMessage', `Accepted ${hashes} hashes!`)
+}
+
+function onOptin (params) {
+  if (params.status === 'accepted') {
+    store.commit('addMessage', 'User accepted opt-in')
+  } else {
+    store.commit('addMessage', 'User canceled opt-in')
+  }
 }
 
 function newJob (ev) {
@@ -26,11 +34,13 @@ function updateThrottle () {
 function updateStats () {
   updateThrottle()
   stats.hashesPerSecond = miner.getHashesPerSecond()
+  stats.hasWASM = miner.hasWASMSupport()
+  stats.threads = miner.getNumThreads()
   stats.totalHashes = miner.getTotalHashes(true)
   stats.acceptedHashes = miner.getAcceptedHashes()
   stats.throttle = miner.getThrottle()
   stats.power = `${((1 - stats.throttle).toFixed(2) * 100)}%`
-  stats.hashRate = `${stats.hashesPerSecond.toFixed(1)}/sec`
+  stats.hashRate = stats.hashesPerSecond.toFixed(1)
   store.commit('updateStats', stats)
 }
 
@@ -43,6 +53,7 @@ export default function (CH, ctx) {
   miner.on('found', ev => hashFound(ev))
   miner.on('job', ev => newJob(ev))
   miner.on('accepted', ev => hashAccepted(ev))
+  miner.on('optin', ev => onOptin(ev))
   miner.start()
   setInterval(updateStats, 500)
 }

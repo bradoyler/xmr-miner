@@ -9,7 +9,8 @@ const state = {
   user: 'Admin',
   stats: [{}],
   nodes: [{ id: 0, name: 'start', _color: 'orange' }],
-  messages: ['starting...']
+  messages: ['booting up...'],
+  minerProgress: 100
 }
 
 export default new Vuex.Store({

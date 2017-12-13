@@ -1,3 +1,4 @@
+
 export const mutations = {
   addMessage (state, msg) {
     state.messages.unshift(msg)
@@ -5,11 +6,10 @@ export const mutations = {
       state.messages.pop()
     }
   },
-  updateStats (state, { hashRate, totalHashes, acceptedHashes }) {
-    state.stats.unshift({hashRate, totalHashes, acceptedHashes})
-    if (state.stats.length > 1) {
-      state.stats.pop()
-    }
+  updateStats (state, stats) {
+    if (state.minerProgress > 100) state.minerProgress = 0
+    state.minerProgress += stats.hashesPerSecond / 1.6 // slow down a bit
+    state.stats = stats
   },
   addNode (state, node) {
     state.nodes.unshift(node)

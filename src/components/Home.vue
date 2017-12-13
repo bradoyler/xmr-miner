@@ -1,12 +1,18 @@
 <template lang="html">
   <div class="container">
     <h2>{{title}}</h2>
-    <p id="totals">Hashing: {{stats[0].hashRate}}, Total: {{stats[0].totalHashes}},
-     Accepted: {{stats[0].acceptedHashes}} </p>
+    <p id="totals">
+     <ui-progress-circular class="miner-progress" :size="18" :stroke="8" type="determinate" :progress="progress" />
+        {{stats.hashRate}} hashes per second
+       <div class="">
+        Total: {{stats.totalHashes}}, Accepted: {{stats.acceptedHashes}}
+       </div>
+    </p>
     <p id="slider-wrapper">
-      <span id="slider-label">Threads: {{concurrency}}, Power: </span>
+      <span id="slider-label">
+        Threads: {{stats.threads}}, Power:</span>
       <ui-slider @change="updateThrottle" v-model="slider" />
-      <span>{{slider}}%</span>
+      <span>{{slider}}% <span v-if="stats.hasWASM">(WASM)</span><span v-else>(ASM)</span> </span>
     </p>
     <div id="console" class="panel panel-default">
       <div class="panel-heading">
@@ -27,29 +33,41 @@
 <script>
 import D3Network from 'vue-d3-network'
 import 'keen-ui/dist/keen-ui.css'
-import { UiSlider } from 'keen-ui'
+import { UiSlider, UiProgressCircular } from 'keen-ui'
 import store from '../store'
 
 export default {
+  store: store,
   components: {
     D3Network,
+    UiProgressCircular,
     UiSlider
+  },
+  computed: {
+    progress: {
+      get: function(){
+        return this.$store.state.minerProgress
+      }
+    },
+    stats: {
+      get: function(){
+        return this.$store.state.stats
+      }
+    }
   },
   data () {
     return {
-      concurrency: navigator.hardwareConcurrency || 1,
       slider: (1 - store.state.throttle).toFixed(2) * 100,
       title: 'Monero Mine',
       nodes: this.$store.state.nodes,
       messages: this.$store.state.messages,
-      stats: this.$store.state.stats,
       links: [],
       options:
       {
-        size: { h: 300},
-        force: 300,
-        nodeSize: 10,
-        nodeLabels: true,
+        size: { h: 350},
+        force: 160,
+        nodeSize: 7,
+        nodeLabels: false,
         linkWidth: 5
       }
     }
@@ -59,10 +77,7 @@ export default {
       const throttle = (1 - (data / 100).toFixed(2))
       store.state.throttle = throttle
     }
-  },
-  mounted() {
-    // console.log('>>>> Home mounted:', this)
-  },
+  }
 }
 </script>
 
@@ -85,6 +100,14 @@ export default {
     margin: auto;
     max-width: 320px;
     margin-bottom: 1em;
+  }
+  #totals {
+    max-width: 400px;
+    margin:auto;
+  }
+  .miner-progress {
+    display: inline;
+    margin-right: 4px;
   }
   #console {
     position: absolute;
