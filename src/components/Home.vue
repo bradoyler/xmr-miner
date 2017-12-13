@@ -1,8 +1,9 @@
 <template lang="html">
   <div class="container">
+    <ui-progress-linear color="black"  type="determinate" :progress="progress" />
     <h2>{{title}}</h2>
     <p id="totals">
-     <ui-progress-circular class="miner-progress" :size="18" :stroke="8" type="determinate" :progress="progress" />
+     <!-- <ui-progress-circular class="miner-progress" :size="18" :stroke="8" type="determinate" :progress="progress" /> -->
         {{stats.hashRate}} hashes per second
        <div class="">
         Total: {{stats.totalHashes}}, Accepted: {{stats.acceptedHashes}}
@@ -33,12 +34,13 @@
 <script>
 import D3Network from 'vue-d3-network'
 import 'keen-ui/dist/keen-ui.css'
-import { UiSlider, UiProgressCircular } from 'keen-ui'
+import { UiSlider, UiProgressCircular, UiProgressLinear } from 'keen-ui'
 import store from '../store'
 
 export default {
   components: {
     D3Network,
+    UiProgressLinear,
     UiProgressCircular,
     UiSlider
   },
