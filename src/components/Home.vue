@@ -37,7 +37,6 @@ import { UiSlider, UiProgressCircular } from 'keen-ui'
 import store from '../store'
 
 export default {
-  store: store,
   components: {
     D3Network,
     UiProgressCircular,
