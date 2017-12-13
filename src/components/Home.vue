@@ -8,6 +8,9 @@
        <div class="">
         Total: {{stats.totalHashes}}, Accepted: {{stats.acceptedHashes}}
        </div>
+       <h5 class="difficulty">
+         1 XMR: ~{{avgBlockTime.years}} yrs (w/ difficulty: 46B) <a target="_blank" href="https://www.reddit.com/r/MoneroMining/wiki/index">(info)</a>
+       </h5>
     </p>
     <p id="slider-wrapper">
       <span id="slider-label">
@@ -54,10 +57,22 @@ export default {
       get: function(){
         return this.$store.state.stats
       }
+    },
+    avgBlockTime: {
+      get: function(){
+        const { hashRate } = this.$store.state.stats
+        const { difficulty, blockReward } = this.$store.state
+        const hours = (difficulty / hashRate) / 3600
+        const days = hours / 24
+        const years = Math.round(days / 365 / blockReward)
+        return { years, days: Math.round(days - (years * 365)), hours: 4 }
+      }
     }
+
   },
   data () {
     return {
+      difficulty: store.state.difficulty,
       slider: (1 - store.state.throttle).toFixed(2) * 100,
       title: 'Monero Mine',
       nodes: this.$store.state.nodes,

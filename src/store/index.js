@@ -5,6 +5,8 @@ import { mutations } from './mutations'
 Vue.use(Vuex)
 
 const state = {
+  difficulty: 46272805830,
+  blockReward: 5.61,
   throttle: 0.95,
   user: 'Admin',
   stats: [{}],
