@@ -2,11 +2,13 @@
 
 Monero (XMR) mining app, built with Vue.js and hashes visualized with D3
 
+> Turn off Ad blockers to view demo.
+
 [Try Demo](https://bradoyler.github.io/xmr-miner/)
 
-![xmr2](https://user-images.githubusercontent.com/425966/33876062-5a938a68-def2-11e7-9a21-8d8a1915bf0c.gif)
+![xmr](https://user-images.githubusercontent.com/425966/34000771-2b14fe04-e0bc-11e7-99cc-85767d7e8f6a.gif)
 
-Uses the [Coinhive Javascript Miner](https://coinhive.com/documentation/miner)
+Uses the [Coinhive Javascript Miner](https://coinhive.com/documentation/miner) 
 ## Build Setup
 
 ``` bash
