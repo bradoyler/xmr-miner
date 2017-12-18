@@ -1,6 +1,7 @@
 # Monero Mine
 
 Monero (XMR) mining app, built with Vue.js and hashes visualized with D3
+- built as an experiment with CPU mining and for educational purposes only
 
 > Turn off Ad blockers to view demo.
 
