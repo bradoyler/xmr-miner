@@ -26,3 +26,9 @@ npm run build
 > Built using $ vue-cli webpack-simple
 
 Author not affiliated with CoinHive
+
+### Donations:
+- XMR: `49nRim1yjAkHod5G6xMJjZH2z6ZACLmiT7E9JikoiTYVMPsbrZEc95HECqTZ7qLNBKAYVpv4uteYG1PiZkHGm9vhN9oZTSt`
+- ETH: `0xb878fb50C46bAA9111F639686e106d94e65BFB9D`
+- BTC: `19JPTcMu4mLXYJN16X1Wue9bmGPC53TnYd`
+- LTC: `LVb8g1U2y6Nxg7HPVovrbZjmPE3aFSXcnh`
